@@ -47,7 +47,8 @@ async function loadStats() {
     out.innerHTML = "Завантаження...";
 
     try {
-        let res = await fetch(https://ing-ex-tool--kashamana08.replit.app//stats?nick=" + nick);
+        let res = await fetch("https://ing-ex-tool--kashamana08.replit.app/stats?nick=" + nick
+);
         let data = await res.json();
 
         if (data.error) {

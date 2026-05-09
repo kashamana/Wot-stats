@@ -1,86 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>WoT Blitz Stats</title>
-
-<style>
-body {
-    font-family: Arial;
-    background: #0f0f0f;
-    color: white;
-    text-align: center;
-    padding-top: 50px;
-}
-
-input {
-    padding: 10px;
-    width: 220px;
-}
-
-button {
-    padding: 10px;
-    cursor: pointer;
-}
-
-#result {
-    margin-top: 20px;
-    font-size: 18px;
-}
-</style>
-
-</head>
-<body>
-
-<h1>WoT Blitz Stats</h1>
-
-<input id="nick" placeholder="Введи нікнейм">
-<button onclick="loadStats()">Показати</button>
+<input id="nick">
+<button onclick="loadStats()">OK</button>
 
 <div id="result"></div>
 
 <script>
 async function loadStats() {
     let nick = document.getElementById("nick").value;
-    let out = document.getElementById("result");
 
-    out.innerHTML = "Завантаження...";
+    let res = await fetch(https://3947e5d8-0c2a-489b-ac5b-07c57772c35f-00-61wvxlhvshn.janeway.replit.dev//stats?nick=" + nick);
+    let data = await res.json();
 
-    try {
-        let search = await fetch(
-            `https://api.worldoftanks.eu/wot/account/list/?application_id=142ddb8346df3bd57d9b891fd4cfbb63
-
-        let data = await search.json();
-
-        if (!data.data.length) {
-            out.innerHTML = "Гравця не знайдено";
-            return;
-        }
-
-        let id = data.data[0].account_id;
-
-        let stats = await fetch(
-            `https://api.worldoftanks.eu/wot/account/info/?application_id=demo&account_id=${id}`
-        );
-
-        let res = await stats.json();
-        let info = res.data[id];
-
-        let battles = info.statistics.all.battles;
-        let wins = info.statistics.all.wins;
-        let wr = (wins / battles * 100).toFixed(2);
-
-        out.innerHTML = `
-            <p>БоЇ: ${battles}</p>
-            <p>Перемоги: ${wins}</p>
-            <p>Win Rate: ${wr}%</p>
-        `;
-
-    } catch (e) {
-        out.innerHTML = "Помилка завантаження";
-    }
+    document.getElementById("result").innerHTML =
+        "Бої: " + data.battles;
 }
 </script>
-
-</body>
-</html>
